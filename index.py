@@ -35,3 +35,15 @@ login_button.click()
 element = wait.until(EC.invisibility_of_element_located((By.ID, 'signin_btn')))
 problems_nav_button = driver.find_element_by_link_text('Problems')
 problems_nav_button.click()
+
+#Grab total questions
+total_question_element = wait.until(EC.visibility_of_element_located((By.XPATH, "/html/body/div[1]/div[3]/div[2]/div[2]/div[1]/div/div/div[2]/div[1]/div[1]/span/span[1]/span")))
+total_questions_completed = total_question_element.get_attribute("innerHTML").split('/')[0]
+print(total_questions_completed)
+
+#List
+profile = driver.find_element_by_xpath('/html/body/div[1]/div[1]/div/div[2]/ul[2]/li[3]/span/span')
+profile.click()
+
+profile_lists = driver.find_element_by_xpath('/html/body/div[1]/div[1]/div/div[2]/ul[2]/li[3]/span/ul/div[2]/li[2]/div/div[2]')
+profile_lists.click()
