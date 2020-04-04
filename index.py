@@ -30,3 +30,8 @@ wait = WebDriverWait(driver, 10)
 element = wait.until(EC.invisibility_of_element_located((By.ID, 'initial-loading')))
 login_button = wait.until(EC.element_to_be_clickable((By.ID, 'signin_btn')))
 login_button.click()
+
+#Use Nav 
+element = wait.until(EC.invisibility_of_element_located((By.ID, 'signin_btn')))
+problems_nav_button = driver.find_element_by_link_text('Problems')
+problems_nav_button.click()
