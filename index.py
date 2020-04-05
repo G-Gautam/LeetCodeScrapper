@@ -47,3 +47,31 @@ profile.click()
 
 profile_lists = driver.find_element_by_xpath('/html/body/div[1]/div[1]/div/div[2]/ul[2]/li[3]/span/ul/div[2]/li[2]/div/div[2]')
 profile_lists.click()
+
+#Favorite List
+fav_list = wait.until(EC.visibility_of_element_located((By.XPATH, '/html/body/div[1]/div[3]/div/div/div/div[1]/div/div/div/div[2]/a[1]')))
+fav_list.click()
+
+fav_question_dict = {}
+question_fav_list = driver.find_elements_by_class_name('question-title')
+for x in range(1, len(question_fav_list) + 1):
+    question = driver.find_element_by_xpath('/html/body/div[1]/div[3]/div/div/div/div[2]/div/div[2]/li[{0}]/div/a'.format(x))
+    fav_question_dict[question.get_attribute('innerHTML')] = question.get_attribute('href')
+
+names_list = ["Andy", "Gautam"]
+Andy_dict = get_question_dictionary_of_user('Andy')
+Gautam_dict = get_question_dictionary_of_user('Gautam')
+
+common_dict = {}
+
+
+
+def get_question_dictionary_of_user(name):
+    q_list = driver.find_element_by_xpath("//span[@title='{0}']/parent::a".format(name))
+    q_list.click()
+    q_dict = {}
+    question_person_list = driver.find_elements_by_class_name('question-title')
+    for x in range(1, len(question_person_list) + 1):
+        question = driver.find_element_by_xpath('/html/body/div[1]/div[3]/div/div/div/div[2]/div/div[2]/li[{0}]/div/a'.format(x))
+        q_dict[question.get_attribute('innerHTML')] = question.get_attribute('href')
+    return q_dict
