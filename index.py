@@ -22,6 +22,7 @@ def main():
         data = json.load(data_file)
 
     chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--headless")
     chrome_options.add_argument("--incognito")
 
     driver = webdriver.Chrome(ChromeDriverManager().install(), options = chrome_options)
