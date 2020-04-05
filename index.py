@@ -6,6 +6,16 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 import json
 import time
+import logging
+from datetime import date
+
+def logger():
+    with open('credentials.json') as data_file:
+        data = json.load(data_file)
+    logging_dir = data['logging']
+    print(logging_dir, date.today())
+    logging.basicConfig(filename='{0}/logging_{1}.log'.format(logging_dir, date.today()), filemode='w+', level=logging.INFO)
+    logging.info("Created file")
 
 def get_question_dictionary_of_user(name, driver):
     q_list = driver.find_element_by_xpath("//span[@title='{0}']/parent::a".format(name))
@@ -94,5 +104,6 @@ def main():
                 fav_q_btn.click()
 
 if __name__ == "__main__":
+    logger()
     main()
     
