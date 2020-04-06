@@ -13,7 +13,6 @@ def logger():
     with open('credentials.json') as data_file:
         data = json.load(data_file)
     logging_dir = data['logging']
-    print(logging_dir, date.today())
     logging.basicConfig(filename='{0}/logging_{1}.log'.format(logging_dir, date.today()), filemode='w+', format='%(asctime)s - %(message)s', level=logging.INFO)
     logging.info("Script started successfully")
 
@@ -63,7 +62,6 @@ def main():
     #Grab total questions
     total_question_element = wait.until(EC.visibility_of_element_located((By.XPATH, "/html/body/div[1]/div[3]/div[2]/div[2]/div[1]/div/div/div[2]/div[1]/div[1]/span/span[1]/span")))
     total_questions_completed = total_question_element.get_attribute("innerHTML").split('/')[0]
-    print(total_questions_completed)
 
     #List
     profile = driver.find_element_by_xpath('/html/body/div[1]/div[1]/div/div[2]/ul[2]/li[3]/span/span')
