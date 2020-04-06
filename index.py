@@ -14,8 +14,8 @@ def logger():
         data = json.load(data_file)
     logging_dir = data['logging']
     print(logging_dir, date.today())
-    logging.basicConfig(filename='{0}/logging_{1}.log'.format(logging_dir, date.today()), filemode='w+', level=logging.INFO)
-    logging.info("Created file")
+    logging.basicConfig(filename='{0}/logging_{1}.log'.format(logging_dir, date.today()), filemode='w+', format='%(asctime)s - %(message)s', level=logging.INFO)
+    logging.info("Script started successfully")
 
 def get_question_dictionary_of_user(name, driver):
     q_list = driver.find_element_by_xpath("//span[@title='{0}']/parent::a".format(name))
@@ -54,6 +54,7 @@ def main():
     login_button = wait.until(EC.element_to_be_clickable((By.ID, 'signin_btn')))
     login_button.click()
 
+    logging.info("Signed in to Leetcode with the following credentials: Username: {0}, Password {1}".format(data['username'], data['password']))
     #Use Nav 
     element = wait.until(EC.invisibility_of_element_located((By.ID, 'signin_btn')))
     problems_nav_button = driver.find_element_by_link_text('Problems')
@@ -84,6 +85,7 @@ def main():
     names_list = ["Andy", "Gautam"]
     Andy_dict = get_question_dictionary_of_user('Andy', driver)
     Gautam_dict = get_question_dictionary_of_user('Gautam', driver)
+    logging.info("All dictionaries populated!")
 
     common_dict = {}
     for val in Andy_dict:
@@ -91,17 +93,23 @@ def main():
             common_dict[val] = Gautam_dict[val]
 
     if(len(common_dict) == len(fav_question_dict)):
+        logging.info("The favorite list is synced correctly")
+        logging.info("Process Ending...")
         driver.quit()
     else:
-        print(len(common_dict))
-        print(len(fav_question_dict))
+        logging.info("Starting syncinc...")
+        sync_counter = 0
         for x in common_dict:
             if x not in fav_question_dict:
+                sync_counter += 1
                 driver.get(common_dict.get(x))
                 fav_q_btn = wait.until(EC.visibility_of_element_located((By.XPATH, "//span[text()='Add to List']/parent::button")))
                 fav_q_btn.click()
                 time.sleep(0.5)
                 fav_q_btn.click()
+                
+        logging.info("Added {0} records into favorite list".format(sync_counter))
+        logging.info("Process Ending...")
 
 if __name__ == "__main__":
     logger()
